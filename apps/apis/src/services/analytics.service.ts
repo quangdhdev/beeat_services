@@ -31,7 +31,7 @@ export class AnalyticsService {
     }
   }
 
-  async trackLessonCompletion(userId: string, data: TrackLessonCompletionData) {
+  async trackLessonCompletion(_userId: string, _data: TrackLessonCompletionData) {
     // This is primarily for analytics tracking, separate from progress tracking
     // You could store this in a separate analytics table or use an external analytics service
     
@@ -42,7 +42,7 @@ export class AnalyticsService {
     }
   }
 
-  async getLearningAnalytics(userId: string, period: string = 'month') {
+  async getLearningAnalytics(userId: string, period = 'month') {
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: {
@@ -100,14 +100,6 @@ export class AnalyticsService {
     // Calculate progress by category
     const categoryProgress = user.enrollments.reduce((acc, enrollment) => {
       const category = enrollment.course.category.name
-      const totalLessons = enrollment.course.sections.reduce((total, section) => 
-        total + section.lessons.length, 0
-      )
-      const completedCourseLessons = enrollment.course.sections.reduce((total, section) =>
-        total + section.lessons.filter(lesson => 
-          lesson.progress.some(p => p.completed)
-        ).length, 0
-      )
 
       if (!acc[category]) {
         acc[category] = {
@@ -138,7 +130,7 @@ export class AnalyticsService {
     // Recent activity
     const recentActivity = user.progress
       .filter(p => p.completedAt)
-      .sort((a, b) => new Date(b.completedAt!).getTime() - new Date(a.completedAt!).getTime())
+      .sort((a, b) => new Date(b.completedAt as Date).getTime() - new Date(a.completedAt as Date).getTime())
       .slice(0, 10)
       .map(p => ({
         type: 'lesson_completed',
@@ -161,7 +153,7 @@ export class AnalyticsService {
     // Add certificate events
     const certificateActivity = user.enrollments
       .filter(e => e.certificateEarned && e.completedAt)
-      .sort((a, b) => new Date(b.completedAt!).getTime() - new Date(a.completedAt!).getTime())
+      .sort((a, b) => new Date(b.completedAt as Date).getTime() - new Date(a.completedAt as Date).getTime())
       .slice(0, 5)
       .map(e => ({
         type: 'certificate_earned',
@@ -171,7 +163,7 @@ export class AnalyticsService {
       }))
 
     const allActivity = [...recentActivity, ...enrollmentActivity, ...certificateActivity]
-      .sort((a, b) => new Date(b.timestamp!).getTime() - new Date(a.timestamp!).getTime())
+      .sort((a, b) => new Date(b.timestamp as Date).getTime() - new Date(a.timestamp as Date).getTime())
       .slice(0, 15)
 
     // Calculate streaks (simplified - would need more complex logic for real streaks)

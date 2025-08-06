@@ -46,7 +46,7 @@ export class CartService {
     }
   }
 
-  async addToCart(userId: string, courseId: string, quantity: number = 1) {
+  async addToCart(userId: string, courseId: string, quantity = 1) {
     try {
       const cartItem = await prisma.cartItem.create({
         data: {

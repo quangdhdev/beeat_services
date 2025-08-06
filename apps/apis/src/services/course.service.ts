@@ -1,5 +1,5 @@
 import { prisma } from '../lib/database'
-import { Course, CourseLevel, Prisma } from '../generated/prisma'
+import { CourseLevel, Prisma } from '../generated/prisma'
 
 export interface GetCoursesQuery {
   page?: number
@@ -246,7 +246,7 @@ export class CourseService {
     }
   }
 
-  async getEnrolledCourses(userId: string, status?: string) {
+  async getEnrolledCourses(userId: string, _status?: string) {
     const where: Prisma.CourseEnrollmentWhereInput = { userId }
     
     // Add status filtering logic here based on progress completion

@@ -137,7 +137,7 @@ export class PaymentService {
     }
   }
 
-  async getPaymentHistory(userId: string, page: number = 1, limit: number = 10, status?: PaymentStatus) {
+  async getPaymentHistory(userId: string, page = 1, limit = 10, status?: PaymentStatus) {
     const skip = (page - 1) * limit
     const where: Prisma.PaymentWhereInput = { userId }
     

@@ -126,7 +126,7 @@ export class UserService {
     }
   }
 
-  async createOrUpdateUser(supabaseUser: any) {
+  async createOrUpdateUser(supabaseUser: { id: string; email: string; user_metadata?: { full_name?: string } }) {
     const userData = {
       id: supabaseUser.id,
       email: supabaseUser.email,

@@ -40,11 +40,11 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
 
     ;(request as AuthenticatedRequest).user = {
       id: user.id,
-      email: user.email!,
+      email: user.email || '',
       aud: user.aud,
       role: user.role
     }
-  } catch (error) {
+  } catch {
     return reply.code(401).send({
       success: false,
       error: {
