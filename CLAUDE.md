@@ -50,26 +50,64 @@ npx nx format
 - **Language**: TypeScript (ES2022, strict mode)
 - **Build Tool**: ESBuild via Nx
 - **Testing**: Jest for unit tests, separate E2E app
-- **Database**: Planned Supabase integration (not yet implemented)
-- **Authentication**: Planned Supabase Auth integration
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: Supabase Auth
+- **Storage**: Supabase (for file uploads)
 
 ### Key Directories
-- **`/apps/apis/src/app/plugins/`** - Reusable Fastify plugins (sensible.ts for HTTP errors)
+- **`/apps/apis/src/app/plugins/`** - Fastify plugins (sensible.ts, database.ts)
 - **`/apps/apis/src/app/routes/`** - API route handlers (autoloaded by Fastify)
+- **`/apps/apis/src/lib/`** - Core utilities (database, supabase, auth)
+- **`/apps/apis/src/services/`** - Business logic services
+- **`/apps/apis/src/generated/prisma/`** - Generated Prisma client
 - **`/apps/apis/src/main.ts`** - Application entry point
+- **`/prisma/`** - Database schema and migrations
 
 ### Current Implementation State
 - ✅ Basic Fastify server with plugin autoloading
 - ✅ Nx monorepo setup with build/test pipelines
 - ✅ Docker containerization
 - ✅ TypeScript strict configuration
-- ✅ Comprehensive API documentation planned
-- ❌ Most API endpoints not yet implemented (only root endpoint exists)
-- ❌ Database layer not implemented
-- ❌ Authentication not implemented
+- ✅ Comprehensive API documentation
+- ✅ Prisma database schema with full data models
+- ✅ Supabase authentication integration
+- ✅ Database service layer (courses, users, cart)
+- ✅ Authentication middleware
+- ❌ API endpoints implementation (in progress)
+- ❌ Database migrations not run
+
+### Database Commands
+```bash
+# Generate Prisma client
+npx prisma generate
+
+# Create and run migrations
+npx prisma migrate dev
+
+# Reset database
+npx prisma migrate reset
+
+# View database in Prisma Studio
+npx prisma studio
+```
+
+### Environment Setup
+1. Copy `.env.example` to `.env`
+2. Set up PostgreSQL database and update `DATABASE_URL`
+3. Create Supabase project and update Supabase environment variables
+4. Run `npx prisma migrate dev` to set up database schema
+5. Run `npx prisma generate` to generate Prisma client
+
+### API Documentation
+- **Swagger UI**: Available at `http://localhost:3000/docs` (development only)
+- **Health Check**: `GET /health` - Shows API status and Swagger URL
+- **Authentication**: Bearer JWT tokens via Supabase Auth
 
 ### Development Notes
 - Server runs on `localhost:3000` by default (configurable via HOST/PORT env vars)
 - Uses Fastify's autoload system for plugin and route discovery
 - Nx handles all build, test, and development workflows
 - Docker image uses Node.js Alpine with non-root user `beeat-be-apis`
+- Authentication uses Supabase JWT tokens in Authorization header
+- Database access through Prisma ORM with generated types
+- Swagger documentation automatically disabled in production environment
