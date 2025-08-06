@@ -1,12 +1,30 @@
 import { FastifyPluginAsync } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { requireAuth, AuthenticatedRequest } from '../../../lib/auth'
 import { UserService } from '../../../services/user.service'
+import { 
+  UpdateUserProfileSchema, 
+  ChangePasswordSchema,
+  SuccessResponseSchema,
+  ErrorResponseSchema
+} from '../../../lib/schemas'
 
 const userService = new UserService()
 
 const user: FastifyPluginAsync = async (fastify): Promise<void> => {
   // GET /user/profile - Get user profile
-  fastify.get('/profile', {
+  fastify.withTypeProvider<ZodTypeProvider>().get('/profile', {
+    schema: {
+      tags: ['User'],
+      summary: 'Get user profile',
+      description: 'Get the authenticated user\'s profile information',
+      security: [{ bearerAuth: [] }],
+      response: {
+        200: SuccessResponseSchema,
+        404: ErrorResponseSchema,
+        500: ErrorResponseSchema
+      }
+    },
     preHandler: requireAuth()
   }, async (request, reply) => {
     const authRequest = request as AuthenticatedRequest
@@ -39,23 +57,19 @@ const user: FastifyPluginAsync = async (fastify): Promise<void> => {
   })
 
   // PUT /user/profile - Update user profile
-  fastify.put<{
-    Body: {
-      fullName?: string
-      phone?: string
-      bio?: string
-      preferences?: {
-        language?: string
-        timezone?: string
-        notifications?: {
-          email?: boolean
-          courseUpdates?: boolean
-          promotions?: boolean
-          weeklyDigest?: boolean
-        }
+  fastify.withTypeProvider<ZodTypeProvider>().put('/profile', {
+    schema: {
+      tags: ['User'],
+      summary: 'Update user profile',
+      description: 'Update the authenticated user\'s profile information',
+      security: [{ bearerAuth: [] }],
+      body: UpdateUserProfileSchema,
+      response: {
+        200: SuccessResponseSchema,
+        400: ErrorResponseSchema,
+        500: ErrorResponseSchema
       }
-    }
-  }>('/profile', {
+    },
     preHandler: requireAuth()
   }, async (request, reply) => {
     const authRequest = request as AuthenticatedRequest
@@ -81,7 +95,17 @@ const user: FastifyPluginAsync = async (fastify): Promise<void> => {
   })
 
   // POST /user/avatar - Upload user avatar
-  fastify.post('/avatar', {
+  fastify.withTypeProvider<ZodTypeProvider>().post('/avatar', {
+    schema: {
+      tags: ['User'],
+      summary: 'Upload user avatar',
+      description: 'Upload and update the authenticated user\'s avatar',
+      security: [{ bearerAuth: [] }],
+      response: {
+        200: SuccessResponseSchema,
+        500: ErrorResponseSchema
+      }
+    },
     preHandler: requireAuth()
   }, async (request, reply) => {
     const authRequest = request as AuthenticatedRequest
@@ -109,21 +133,23 @@ const user: FastifyPluginAsync = async (fastify): Promise<void> => {
   })
 
   // PUT /user/password - Change password
-  fastify.put<{
-    Body: {
-      currentPassword: string
-      newPassword: string
-      confirmPassword: string
-    }
-  }>('/password', {
+  fastify.withTypeProvider<ZodTypeProvider>().put('/password', {
+    schema: {
+      tags: ['User'],
+      summary: 'Change password',
+      description: 'Change the authenticated user\'s password',
+      security: [{ bearerAuth: [] }],
+      body: ChangePasswordSchema,
+      response: {
+        200: SuccessResponseSchema,
+        400: ErrorResponseSchema,
+        500: ErrorResponseSchema
+      }
+    },
     preHandler: requireAuth()
   }, async (request, reply) => {
     try {
-      const { currentPassword, newPassword, confirmPassword } = request.body as {
-        currentPassword: string
-        newPassword: string
-        confirmPassword: string
-      }
+      const { currentPassword, newPassword, confirmPassword } = request.body
 
       if (!currentPassword || !newPassword || !confirmPassword) {
         return reply.code(400).send({

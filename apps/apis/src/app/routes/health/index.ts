@@ -1,28 +1,27 @@
 import { FastifyPluginAsync } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { z } from 'zod'
+
+// Zod schema for health check response
+const HealthResponseSchema = z.object({
+  success: z.literal(true),
+  data: z.object({
+    status: z.literal('healthy'),
+    timestamp: z.string().datetime(),
+    environment: z.string(),
+    swagger: z.string()
+  })
+});
 
 const health: FastifyPluginAsync = async (fastify): Promise<void> => {
-  // GET /health - Health check endpoint
-  fastify.get('/', {
+  // GET /health - Health check endpoint with Zod validation
+  fastify.withTypeProvider<ZodTypeProvider>().get('/', {
     schema: {
       tags: ['Health'],
       summary: 'Health check',
       description: 'Check if the API is running and healthy',
       response: {
-        200: {
-          type: 'object',
-          properties: {
-            success: { type: 'boolean', example: true },
-            data: {
-              type: 'object',
-              properties: {
-                status: { type: 'string', example: 'healthy' },
-                timestamp: { type: 'string', format: 'date-time' },
-                environment: { type: 'string' },
-                swagger: { type: 'string' }
-              }
-            }
-          }
-        }
+        200: HealthResponseSchema
       }
     }
   }, async (request, reply) => {

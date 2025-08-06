@@ -1,61 +1,37 @@
 import { FastifyPluginAsync } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { requireAuth, AuthenticatedRequest } from '../../../lib/auth'
 import { CourseService } from '../../../services/course.service'
+import { 
+  CourseQuerySchema,
+  CourseIdParamSchema,
+  EnrolledCoursesQuerySchema,
+  SuccessResponseSchema,
+  ErrorResponseSchema
+} from '../../../lib/schemas'
 
 const courseService = new CourseService()
 
 const courses: FastifyPluginAsync = async (fastify): Promise<void> => {
   // GET /courses - Get all courses with pagination and filters
-  fastify.get('/', {
+  fastify.withTypeProvider<ZodTypeProvider>().get('/', {
     schema: {
       tags: ['Courses'],
       summary: 'Get all courses',
       description: 'Retrieve all available courses with pagination and filtering options',
-      querystring: {
-        type: 'object',
-        properties: {
-          page: { type: 'integer', minimum: 1, default: 1 },
-          limit: { type: 'integer', minimum: 1, maximum: 50, default: 12 },
-          category: { type: 'string' },
-          level: { type: 'string', enum: ['BEGINNER', 'INTERMEDIATE', 'ADVANCED'] },
-          sortBy: { type: 'string', enum: ['newest', 'popular', 'rating', 'price'], default: 'newest' },
-          sortOrder: { type: 'string', enum: ['asc', 'desc'], default: 'desc' }
-        }
-      },
+      querystring: CourseQuerySchema,
       response: {
-        200: {
-          type: 'object',
-          properties: {
-            success: { type: 'boolean', example: true },
-            data: {
-              type: 'object',
-              properties: {
-                courses: {
-                  type: 'array',
-                  items: { $ref: '#/components/schemas/Course' }
-                },
-                pagination: { $ref: '#/components/schemas/Pagination' }
-              }
-            }
-          }
-        },
-        500: { $ref: '#/components/schemas/ErrorResponse' }
+        200: SuccessResponseSchema,
+        500: ErrorResponseSchema
       }
     }
   }, async (request, reply) => {
     try {
-      const query = request.query as {
-        page?: string
-        limit?: string
-        category?: string
-        level?: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED'
-        sortBy?: 'newest' | 'popular' | 'rating' | 'price'
-        sortOrder?: 'asc' | 'desc'
-      }
+      const query = request.query
 
       const result = await courseService.getCourses({
-        page: query.page ? parseInt(query.page) : 1,
-        limit: query.limit ? parseInt(query.limit) : 12,
+        page: query.page,
+        limit: query.limit,
         category: query.category,
         level: query.level,
         sortBy: query.sortBy,
@@ -78,33 +54,16 @@ const courses: FastifyPluginAsync = async (fastify): Promise<void> => {
   })
 
   // GET /courses/:courseId - Get course by ID
-  fastify.get<{ Params: { courseId: string } }>('/:courseId', {
+  fastify.withTypeProvider<ZodTypeProvider>().get('/:courseId', {
     schema: {
       tags: ['Courses'],
       summary: 'Get course by ID',
       description: 'Get detailed information about a specific course',
-      params: {
-        type: 'object',
-        properties: {
-          courseId: { type: 'string', format: 'uuid' }
-        },
-        required: ['courseId']
-      },
+      params: CourseIdParamSchema,
       response: {
-        200: {
-          type: 'object',
-          properties: {
-            success: { type: 'boolean', example: true },
-            data: {
-              type: 'object',
-              properties: {
-                course: { $ref: '#/components/schemas/Course' }
-              }
-            }
-          }
-        },
-        404: { $ref: '#/components/schemas/ErrorResponse' },
-        500: { $ref: '#/components/schemas/ErrorResponse' }
+        200: SuccessResponseSchema,
+        404: ErrorResponseSchema,
+        500: ErrorResponseSchema
       }
     }
   }, async (request, reply) => {
@@ -151,16 +110,23 @@ const courses: FastifyPluginAsync = async (fastify): Promise<void> => {
   })
 
   // GET /courses/enrolled - Get user's enrolled courses
-  fastify.get('/enrolled', { 
+  fastify.withTypeProvider<ZodTypeProvider>().get('/enrolled', {
+    schema: {
+      tags: ['Courses'],
+      summary: 'Get enrolled courses',
+      description: 'Get courses that the authenticated user is enrolled in',
+      security: [{ bearerAuth: [] }],
+      querystring: EnrolledCoursesQuerySchema,
+      response: {
+        200: SuccessResponseSchema,
+        500: ErrorResponseSchema
+      }
+    },
     preHandler: requireAuth() 
   }, async (request, reply) => {
     const authRequest = request as AuthenticatedRequest
     try {
-      const query = request.query as {
-        status?: string
-        page?: string
-        limit?: string
-      }
+      const query = request.query
 
       const result = await courseService.getEnrolledCourses(
         authRequest.user.id,
@@ -183,52 +149,25 @@ const courses: FastifyPluginAsync = async (fastify): Promise<void> => {
   })
 
   // POST /courses/:courseId/enroll - Enroll in a course
-  fastify.post<{ Params: { courseId: string } }>('/:courseId/enroll', {
+  fastify.withTypeProvider<ZodTypeProvider>().post('/:courseId/enroll', {
     schema: {
       tags: ['Courses'],
       summary: 'Enroll in a course',
       description: 'Enroll the authenticated user in a specific course',
       security: [{ bearerAuth: [] }],
-      params: {
-        type: 'object',
-        properties: {
-          courseId: { type: 'string', format: 'uuid' }
-        },
-        required: ['courseId']
-      },
+      params: CourseIdParamSchema,
       response: {
-        201: {
-          type: 'object',
-          properties: {
-            success: { type: 'boolean', example: true },
-            data: {
-              type: 'object',
-              properties: {
-                message: { type: 'string' },
-                enrollment: {
-                  type: 'object',
-                  properties: {
-                    id: { type: 'string', format: 'uuid' },
-                    courseId: { type: 'string', format: 'uuid' },
-                    userId: { type: 'string', format: 'uuid' },
-                    enrolledAt: { type: 'string', format: 'date-time' },
-                    progress: { type: 'integer', example: 0 }
-                  }
-                }
-              }
-            }
-          }
-        },
-        401: { $ref: '#/components/schemas/ErrorResponse' },
-        409: { $ref: '#/components/schemas/ErrorResponse' },
-        500: { $ref: '#/components/schemas/ErrorResponse' }
+        201: SuccessResponseSchema,
+        401: ErrorResponseSchema,
+        409: ErrorResponseSchema,
+        500: ErrorResponseSchema
       }
     },
     preHandler: requireAuth()
   }, async (request, reply) => {
     const authRequest = request as AuthenticatedRequest
     try {
-      const { courseId } = request.params as any
+      const { courseId } = request.params
 
       const enrollment = await courseService.enrollUserInCourse(
         authRequest.user.id,
@@ -243,7 +182,7 @@ const courses: FastifyPluginAsync = async (fastify): Promise<void> => {
             id: enrollment.id,
             courseId: enrollment.courseId,
             userId: enrollment.userId,
-            enrolledAt: enrollment.enrolledAt,
+            enrolledAt: enrollment.enrolledAt.toISOString(),
             progress: 0
           }
         }

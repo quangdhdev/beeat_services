@@ -1,45 +1,29 @@
 import { FastifyPluginAsync } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { requireAuth, AuthenticatedRequest } from '../../../lib/auth'
 import { CartService } from '../../../services/cart.service'
+import { 
+  AddToCartSchema, 
+  UpdateCartItemSchema,
+  CartItemParamSchema,
+  SuccessResponseSchema,
+  ErrorResponseSchema
+} from '../../../lib/schemas'
 
 const cartService = new CartService()
 
 const cart: FastifyPluginAsync = async (fastify): Promise<void> => {
   // GET /cart - Get cart items
-  fastify.get('/', {
+  fastify.withTypeProvider<ZodTypeProvider>().get('/', {
     schema: {
       tags: ['Cart'],
       summary: 'Get cart items',
       description: 'Get all items in the authenticated user\'s shopping cart',
       security: [{ bearerAuth: [] }],
       response: {
-        200: {
-          type: 'object',
-          properties: {
-            success: { type: 'boolean', example: true },
-            data: {
-              type: 'object',
-              properties: {
-                items: {
-                  type: 'array',
-                  items: { $ref: '#/components/schemas/CartItem' }
-                },
-                summary: {
-                  type: 'object',
-                  properties: {
-                    totalItems: { type: 'integer' },
-                    subtotal: { type: 'number' },
-                    totalOriginalPrice: { type: 'number' },
-                    totalSavings: { type: 'number' },
-                    total: { type: 'number' }
-                  }
-                }
-              }
-            }
-          }
-        },
-        401: { $ref: '#/components/schemas/ErrorResponse' },
-        500: { $ref: '#/components/schemas/ErrorResponse' }
+        200: SuccessResponseSchema,
+        401: ErrorResponseSchema,
+        500: ErrorResponseSchema
       }
     },
     preHandler: requireAuth()
@@ -64,51 +48,19 @@ const cart: FastifyPluginAsync = async (fastify): Promise<void> => {
   })
 
   // POST /cart/add - Add course to cart
-  fastify.post<{
-    Body: {
-      courseId: string
-      quantity?: number
-    }
-  }>('/add', {
+  fastify.withTypeProvider<ZodTypeProvider>().post('/add', {
     schema: {
       tags: ['Cart'],
       summary: 'Add course to cart',
       description: 'Add a course to the authenticated user\'s shopping cart',
       security: [{ bearerAuth: [] }],
-      body: {
-        type: 'object',
-        properties: {
-          courseId: { type: 'string', format: 'uuid' },
-          quantity: { type: 'integer', minimum: 1, default: 1 }
-        },
-        required: ['courseId']
-      },
+      body: AddToCartSchema,
       response: {
-        201: {
-          type: 'object',
-          properties: {
-            success: { type: 'boolean', example: true },
-            data: {
-              type: 'object',
-              properties: {
-                message: { type: 'string' },
-                cartItem: {
-                  type: 'object',
-                  properties: {
-                    id: { type: 'string', format: 'uuid' },
-                    courseId: { type: 'string', format: 'uuid' },
-                    quantity: { type: 'integer' },
-                    addedAt: { type: 'string', format: 'date-time' }
-                  }
-                }
-              }
-            }
-          }
-        },
-        400: { $ref: '#/components/schemas/ErrorResponse' },
-        401: { $ref: '#/components/schemas/ErrorResponse' },
-        409: { $ref: '#/components/schemas/ErrorResponse' },
-        500: { $ref: '#/components/schemas/ErrorResponse' }
+        201: SuccessResponseSchema,
+        400: ErrorResponseSchema,
+        401: ErrorResponseSchema,
+        409: ErrorResponseSchema,
+        500: ErrorResponseSchema
       }
     },
     preHandler: requireAuth()
@@ -159,10 +111,21 @@ const cart: FastifyPluginAsync = async (fastify): Promise<void> => {
   })
 
   // PUT /cart/items/:itemId - Update cart item quantity
-  fastify.put<{
-    Params: { itemId: string }
-    Body: { quantity: number }
-  }>('/items/:itemId', {
+  fastify.withTypeProvider<ZodTypeProvider>().put('/items/:itemId', {
+    schema: {
+      tags: ['Cart'],
+      summary: 'Update cart item quantity',
+      description: 'Update the quantity of an item in the cart',
+      security: [{ bearerAuth: [] }],
+      params: CartItemParamSchema,
+      body: UpdateCartItemSchema,
+      response: {
+        200: SuccessResponseSchema,
+        400: ErrorResponseSchema,
+        404: ErrorResponseSchema,
+        500: ErrorResponseSchema
+      }
+    },
     preHandler: requireAuth()
   }, async (request, reply) => {
     const authRequest = request as AuthenticatedRequest
@@ -212,9 +175,19 @@ const cart: FastifyPluginAsync = async (fastify): Promise<void> => {
   })
 
   // DELETE /cart/items/:itemId - Remove item from cart
-  fastify.delete<{
-    Params: { itemId: string }
-  }>('/items/:itemId', {
+  fastify.withTypeProvider<ZodTypeProvider>().delete('/items/:itemId', {
+    schema: {
+      tags: ['Cart'],
+      summary: 'Remove item from cart',
+      description: 'Remove an item from the cart',
+      security: [{ bearerAuth: [] }],
+      params: CartItemParamSchema,
+      response: {
+        200: SuccessResponseSchema,
+        404: ErrorResponseSchema,
+        500: ErrorResponseSchema
+      }
+    },
     preHandler: requireAuth()
   }, async (request, reply) => {
     const authRequest = request as AuthenticatedRequest
@@ -252,7 +225,17 @@ const cart: FastifyPluginAsync = async (fastify): Promise<void> => {
   })
 
   // DELETE /cart/clear - Clear cart
-  fastify.delete('/clear', {
+  fastify.withTypeProvider<ZodTypeProvider>().delete('/clear', {
+    schema: {
+      tags: ['Cart'],
+      summary: 'Clear cart',
+      description: 'Remove all items from the cart',
+      security: [{ bearerAuth: [] }],
+      response: {
+        200: SuccessResponseSchema,
+        500: ErrorResponseSchema
+      }
+    },
     preHandler: requireAuth()
   }, async (request, reply) => {
     const authRequest = request as AuthenticatedRequest

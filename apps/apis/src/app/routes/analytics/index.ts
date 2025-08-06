@@ -1,18 +1,32 @@
 import { FastifyPluginAsync } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { requireAuth, AuthenticatedRequest } from '../../../lib/auth'
 import { AnalyticsService } from '../../../services/analytics.service'
+import { 
+  TrackCourseViewSchema,
+  TrackLessonCompletionSchema,
+  AnalyticsQuerySchema,
+  SuccessResponseSchema,
+  ErrorResponseSchema
+} from '../../../lib/schemas'
 
 const analyticsService = new AnalyticsService()
 
 const analytics: FastifyPluginAsync = async (fastify): Promise<void> => {
   // POST /analytics/course-view - Track course view
-  fastify.post<{
-    Body: {
-      courseId: string
-      source?: string
-      referrer?: string
+  fastify.withTypeProvider<ZodTypeProvider>().post('/course-view', {
+    schema: {
+      tags: ['Analytics'],
+      summary: 'Track course view',
+      description: 'Track when a user views a course',
+      body: TrackCourseViewSchema,
+      response: {
+        200: SuccessResponseSchema,
+        400: ErrorResponseSchema,
+        500: ErrorResponseSchema
+      }
     }
-  }>('/course-view', async (request, reply) => {
+  }, async (request, reply) => {
     try {
       const { courseId, source, referrer } = request.body
       const authHeader = request.headers.authorization
@@ -28,15 +42,7 @@ const analytics: FastifyPluginAsync = async (fastify): Promise<void> => {
         }
       }
 
-      if (!courseId) {
-        return reply.code(400).send({
-          success: false,
-          error: {
-            code: 'VALIDATION_001',
-            message: 'Course ID is required'
-          }
-        })
-      }
+      // courseId validation is now handled by Zod
 
       const ipAddress = request.ip
       
@@ -63,29 +69,26 @@ const analytics: FastifyPluginAsync = async (fastify): Promise<void> => {
   })
 
   // POST /analytics/lesson-completion - Track lesson completion
-  fastify.post<{
-    Body: {
-      courseId: string
-      lessonId: string
-      timeSpent: number
-      completionRate: number
-    }
-  }>('/lesson-completion', {
+  fastify.withTypeProvider<ZodTypeProvider>().post('/lesson-completion', {
+    schema: {
+      tags: ['Analytics'],
+      summary: 'Track lesson completion',
+      description: 'Track when a user completes a lesson',
+      security: [{ bearerAuth: [] }],
+      body: TrackLessonCompletionSchema,
+      response: {
+        200: SuccessResponseSchema,
+        400: ErrorResponseSchema,
+        500: ErrorResponseSchema
+      }
+    },
     preHandler: requireAuth()
   }, async (request, reply) => {
     const authRequest = request as AuthenticatedRequest
     try {
-      const { courseId, lessonId, timeSpent, completionRate } = request.body as any
-
-      if (!courseId || !lessonId || typeof timeSpent !== 'number') {
-        return reply.code(400).send({
-          success: false,
-          error: {
-            code: 'VALIDATION_001',
-            message: 'Course ID, lesson ID, and time spent are required'
-          }
-        })
-      }
+      const { courseId, lessonId, timeSpent, completionRate } = request.body
+      
+      // Validation is now handled by Zod
 
       const result = await analyticsService.trackLessonCompletion(authRequest.user.id, {
         courseId,
@@ -110,17 +113,24 @@ const analytics: FastifyPluginAsync = async (fastify): Promise<void> => {
   })
 
   // GET /analytics/learning - Get learning analytics
-  fastify.get<{
-    Querystring: {
-      period?: string
-    }
-  }>('/learning', {
+  fastify.withTypeProvider<ZodTypeProvider>().get('/learning', {
+    schema: {
+      tags: ['Analytics'],
+      summary: 'Get learning analytics',
+      description: 'Get learning analytics for the authenticated user',
+      security: [{ bearerAuth: [] }],
+      querystring: AnalyticsQuerySchema,
+      response: {
+        200: SuccessResponseSchema,
+        404: ErrorResponseSchema,
+        500: ErrorResponseSchema
+      }
+    },
     preHandler: requireAuth()
   }, async (request, reply) => {
     const authRequest = request as AuthenticatedRequest
     try {
-      const query = request.query as any
-      const period = query.period || 'month'
+      const { period } = request.query
 
       const result = await analyticsService.getLearningAnalytics(
         authRequest.user.id,

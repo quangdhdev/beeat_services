@@ -1,5 +1,6 @@
 import fp from 'fastify-plugin'
 import { FastifyPluginAsync } from 'fastify'
+import { jsonSchemaTransform } from 'fastify-type-provider-zod'
 
 const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
   if (process.env.NODE_ENV !== 'development') {
@@ -7,6 +8,7 @@ const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
   }
 
   await fastify.register(import('@fastify/swagger'), {
+    transform: jsonSchemaTransform,
     openapi: {
       openapi: '3.0.0',
       info: {
