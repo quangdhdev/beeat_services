@@ -10,12 +10,13 @@ const progress: FastifyPluginAsync = async (fastify): Promise<void> => {
     Params: { courseId: string }
   }>('/:courseId/progress', {
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
-      const { courseId } = request.params
+      const { courseId } = request.params as any
 
       const result = await progressService.getCourseProgress(
-        request.user.id,
+        authRequest.user.id,
         courseId
       )
 
@@ -69,10 +70,11 @@ const progress: FastifyPluginAsync = async (fastify): Promise<void> => {
     }
   }>('/:courseId/lessons/:lessonId/progress', {
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
-      const { courseId, lessonId } = request.params
-      const { completed, timeSpent, watchedDuration } = request.body
+      const { courseId, lessonId } = request.params as any
+      const { completed, timeSpent, watchedDuration } = request.body as any
 
       if (typeof completed !== 'boolean') {
         return reply.code(400).send({
@@ -85,7 +87,7 @@ const progress: FastifyPluginAsync = async (fastify): Promise<void> => {
       }
 
       const result = await progressService.updateLessonProgress(
-        request.user.id,
+        authRequest.user.id,
         courseId,
         lessonId,
         { completed, timeSpent, watchedDuration }

@@ -72,9 +72,10 @@ const analytics: FastifyPluginAsync = async (fastify): Promise<void> => {
     }
   }>('/lesson-completion', {
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
-      const { courseId, lessonId, timeSpent, completionRate } = request.body
+      const { courseId, lessonId, timeSpent, completionRate } = request.body as any
 
       if (!courseId || !lessonId || typeof timeSpent !== 'number') {
         return reply.code(400).send({
@@ -86,7 +87,7 @@ const analytics: FastifyPluginAsync = async (fastify): Promise<void> => {
         })
       }
 
-      const result = await analyticsService.trackLessonCompletion(request.user.id, {
+      const result = await analyticsService.trackLessonCompletion(authRequest.user.id, {
         courseId,
         lessonId,
         timeSpent,
@@ -115,13 +116,14 @@ const analytics: FastifyPluginAsync = async (fastify): Promise<void> => {
     }
   }>('/learning', {
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
-      const query = request.query
+      const query = request.query as any
       const period = query.period || 'month'
 
       const result = await analyticsService.getLearningAnalytics(
-        request.user.id,
+        authRequest.user.id,
         period
       )
 

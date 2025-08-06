@@ -6,7 +6,7 @@ export interface GetCoursesQuery {
   limit?: number
   category?: string
   level?: CourseLevel
-  sortBy?: 'newest' | 'popular' | 'rating' | 'price'
+  sortBy?: 'newest' | 'popular' | 'rating' | 'price' | 'relevance'
   sortOrder?: 'asc' | 'desc'
 }
 

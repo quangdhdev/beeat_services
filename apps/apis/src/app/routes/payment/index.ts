@@ -25,9 +25,10 @@ const payment: FastifyPluginAsync = async (fastify): Promise<void> => {
     }
   }>('/create-intent', {
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
-      const { items, paymentMethod, billingAddress } = request.body
+      const { items, paymentMethod, billingAddress } = request.body as any
 
       if (!items || !Array.isArray(items) || items.length === 0) {
         return reply.code(400).send({
@@ -50,7 +51,7 @@ const payment: FastifyPluginAsync = async (fastify): Promise<void> => {
       }
 
       const result = await paymentService.createPaymentIntent(
-        request.user.id,
+        authRequest.user.id,
         { items, paymentMethod, billingAddress }
       )
 
@@ -77,9 +78,10 @@ const payment: FastifyPluginAsync = async (fastify): Promise<void> => {
     }
   }>('/confirm', {
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
-      const { paymentIntentId, paymentMethodId } = request.body
+      const { paymentIntentId, paymentMethodId } = request.body as any
 
       if (!paymentIntentId || !paymentMethodId) {
         return reply.code(400).send({
@@ -92,7 +94,7 @@ const payment: FastifyPluginAsync = async (fastify): Promise<void> => {
       }
 
       const result = await paymentService.confirmPayment(
-        request.user.id,
+        authRequest.user.id,
         { paymentIntentId, paymentMethodId }
       )
 
@@ -142,15 +144,16 @@ const payment: FastifyPluginAsync = async (fastify): Promise<void> => {
     }
   }>('/history', {
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
-      const query = request.query
+      const query = request.query as any
       const page = query.page ? parseInt(query.page) : 1
       const limit = query.limit ? parseInt(query.limit) : 10
       const status = query.status as PaymentStatus | undefined
 
       const result = await paymentService.getPaymentHistory(
-        request.user.id,
+        authRequest.user.id,
         page,
         limit,
         status

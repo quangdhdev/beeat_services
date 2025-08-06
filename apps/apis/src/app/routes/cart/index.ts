@@ -43,9 +43,10 @@ const cart: FastifyPluginAsync = async (fastify): Promise<void> => {
       }
     },
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
-      const result = await cartService.getCartItems(request.user.id)
+      const result = await cartService.getCartItems(authRequest.user.id)
 
       reply.send({
         success: true,
@@ -111,7 +112,8 @@ const cart: FastifyPluginAsync = async (fastify): Promise<void> => {
       }
     },
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
       const { courseId, quantity = 1 } = request.body
 
@@ -126,7 +128,7 @@ const cart: FastifyPluginAsync = async (fastify): Promise<void> => {
       }
 
       const result = await cartService.addToCart(
-        request.user.id,
+        authRequest.user.id,
         courseId,
         quantity
       )
@@ -162,7 +164,8 @@ const cart: FastifyPluginAsync = async (fastify): Promise<void> => {
     Body: { quantity: number }
   }>('/items/:itemId', {
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
       const { itemId } = request.params
       const { quantity } = request.body
@@ -178,7 +181,7 @@ const cart: FastifyPluginAsync = async (fastify): Promise<void> => {
       }
 
       const result = await cartService.updateCartItemQuantity(
-        request.user.id,
+        authRequest.user.id,
         itemId,
         quantity
       )
@@ -213,12 +216,13 @@ const cart: FastifyPluginAsync = async (fastify): Promise<void> => {
     Params: { itemId: string }
   }>('/items/:itemId', {
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
       const { itemId } = request.params
 
       const result = await cartService.removeFromCart(
-        request.user.id,
+        authRequest.user.id,
         itemId
       )
 
@@ -250,9 +254,10 @@ const cart: FastifyPluginAsync = async (fastify): Promise<void> => {
   // DELETE /cart/clear - Clear cart
   fastify.delete('/clear', {
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
-      const result = await cartService.clearCart(request.user.id)
+      const result = await cartService.clearCart(authRequest.user.id)
 
       reply.send({
         success: true,

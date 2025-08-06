@@ -51,15 +51,9 @@ const search: FastifyPluginAsync = async (fastify): Promise<void> => {
 
       const result = await courseService.searchCourses(searchParams)
 
-      // Get available filters for the UI
-      const filters = await this.getSearchFilters()
-
       reply.send({
         success: true,
-        data: {
-          ...result,
-          filters
-        }
+        data: result
       })
     } catch (error) {
       reply.code(500).send({
@@ -203,30 +197,30 @@ const search: FastifyPluginAsync = async (fastify): Promise<void> => {
     }
   })
 
-  async function getSearchFilters() {
-    const [categories, levels, priceRange] = await Promise.all([
-      prisma.category.findMany({
-        select: {
-          name: true,
-          slug: true
-        }
-      }),
-      Object.values(CourseLevel),
-      prisma.course.aggregate({
-        _min: { price: true },
-        _max: { price: true }
-      })
-    ])
+  // async function getSearchFilters() {
+  //   const [categories, levels, priceRange] = await Promise.all([
+  //     prisma.category.findMany({
+  //       select: {
+  //         name: true,
+  //         slug: true
+  //       }
+  //     }),
+  //     Object.values(CourseLevel),
+  //     prisma.course.aggregate({
+  //       _min: { price: true },
+  //       _max: { price: true }
+  //     })
+  //   ])
 
-    return {
-      categories: categories.map(c => c.slug),
-      levels: levels,
-      priceRange: {
-        min: priceRange._min.price || 0,
-        max: priceRange._max.price || 1000000
-      }
-    }
-  }
+  //   return {
+  //     categories: categories.map(c => c.slug),
+  //     levels: levels,
+  //     priceRange: {
+  //       min: priceRange._min.price || 0,
+  //       max: priceRange._max.price || 1000000
+  //     }
+  //   }
+  // }
 }
 
 export default search

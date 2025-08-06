@@ -8,9 +8,10 @@ const user: FastifyPluginAsync = async (fastify): Promise<void> => {
   // GET /user/profile - Get user profile
   fastify.get('/profile', {
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
-      const profile = await userService.getUserProfile(request.user.id)
+      const profile = await userService.getUserProfile(authRequest.user.id)
 
       if (!profile) {
         return reply.code(404).send({
@@ -56,11 +57,12 @@ const user: FastifyPluginAsync = async (fastify): Promise<void> => {
     }
   }>('/profile', {
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
       const result = await userService.updateUserProfile(
-        request.user.id,
-        request.body
+        authRequest.user.id,
+        request.body as any
       )
 
       reply.send({
@@ -81,14 +83,15 @@ const user: FastifyPluginAsync = async (fastify): Promise<void> => {
   // POST /user/avatar - Upload user avatar
   fastify.post('/avatar', {
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
       // This would typically handle file upload to Supabase Storage
       // For now, returning a placeholder implementation
       
       const avatarUrl = 'https://example.com/avatar.jpg' // Placeholder
 
-      const result = await userService.updateAvatar(request.user.id, avatarUrl)
+      const result = await userService.updateAvatar(authRequest.user.id, avatarUrl)
 
       reply.send({
         success: true,
@@ -114,9 +117,13 @@ const user: FastifyPluginAsync = async (fastify): Promise<void> => {
     }
   }>('/password', {
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
     try {
-      const { currentPassword, newPassword, confirmPassword } = request.body
+      const { currentPassword, newPassword, confirmPassword } = request.body as {
+        currentPassword: string
+        newPassword: string
+        confirmPassword: string
+      }
 
       if (!currentPassword || !newPassword || !confirmPassword) {
         return reply.code(400).send({
@@ -147,10 +154,6 @@ const user: FastifyPluginAsync = async (fastify): Promise<void> => {
           }
         })
       }
-
-      // Use Supabase to update password
-      const authHeader = request.headers.authorization!
-      const token = authHeader.substring(7)
       
       const { error } = await fastify.supabase.auth.updateUser({
         password: newPassword

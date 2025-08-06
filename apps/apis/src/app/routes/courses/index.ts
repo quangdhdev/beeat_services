@@ -153,7 +153,8 @@ const courses: FastifyPluginAsync = async (fastify): Promise<void> => {
   // GET /courses/enrolled - Get user's enrolled courses
   fastify.get('/enrolled', { 
     preHandler: requireAuth() 
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
       const query = request.query as {
         status?: string
@@ -162,7 +163,7 @@ const courses: FastifyPluginAsync = async (fastify): Promise<void> => {
       }
 
       const result = await courseService.getEnrolledCourses(
-        request.user.id,
+        authRequest.user.id,
         query.status
       )
 
@@ -224,12 +225,13 @@ const courses: FastifyPluginAsync = async (fastify): Promise<void> => {
       }
     },
     preHandler: requireAuth()
-  }, async (request: AuthenticatedRequest, reply) => {
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
     try {
-      const { courseId } = request.params
+      const { courseId } = request.params as any
 
       const enrollment = await courseService.enrollUserInCourse(
-        request.user.id,
+        authRequest.user.id,
         courseId
       )
 
