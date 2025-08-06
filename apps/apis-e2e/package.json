@@ -1,0 +1,26 @@
+{
+  "name": "@beeat-be/apis-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "implicitDependencies": [
+      "@beeat-be/apis"
+    ],
+    "targets": {
+      "e2e": {
+        "executor": "@nx/jest:jest",
+        "outputs": [
+          "{projectRoot}/test-output/jest/coverage"
+        ],
+        "options": {
+          "jestConfig": "apps/apis-e2e/jest.config.ts",
+          "passWithNoTests": true
+        },
+        "dependsOn": [
+          "@beeat-be/apis:build",
+          "@beeat-be/apis:serve"
+        ]
+      }
+    }
+  }
+}
