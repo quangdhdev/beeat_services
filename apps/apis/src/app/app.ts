@@ -7,6 +7,33 @@ export interface AppOptions {}
 
 export async function app(fastify: FastifyInstance, opts: AppOptions) {
   // Place here your custom code!
+  
+  // Add request/response logging hooks
+  fastify.addHook('onRequest', async (request, reply) => {
+    request.log.info({
+      method: request.method,
+      url: request.url,
+      userAgent: request.headers['user-agent']
+    }, 'Incoming request');
+  });
+
+  fastify.addHook('onResponse', async (request, reply) => {
+    request.log.info({
+      method: request.method,
+      url: request.url,
+      statusCode: reply.statusCode,
+      responseTime: reply.elapsedTime
+    }, 'Request completed');
+  });
+
+  fastify.addHook('onError', async (request, reply, error) => {
+    request.log.error({
+      method: request.method,
+      url: request.url,
+      error: error.message,
+      stack: error.stack
+    }, 'Request error');
+  });
 
   // Do not touch the following lines
 

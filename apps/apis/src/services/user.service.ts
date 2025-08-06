@@ -1,5 +1,6 @@
 import { prisma } from '../lib/database'
 import { Prisma } from '../generated/prisma'
+import { loggers } from '../lib/logger'
 
 export interface UpdateUserProfileData {
   fullName?: string
@@ -19,6 +20,8 @@ export interface UpdateUserProfileData {
 
 export class UserService {
   async getUserProfile(userId: string) {
+    loggers.service.debug({ userId }, 'Getting user profile');
+    
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: {
