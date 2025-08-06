@@ -170,7 +170,7 @@ export class AnalyticsService {
     const currentStreak = this.calculateCurrentStreak(user.progress)
     const longestStreak = this.calculateLongestStreak(user.progress)
 
-    const userAnalytics = user.analytics[0] || {
+    const userAnalytics = (user.analytics && Array.isArray(user.analytics) ? user.analytics[0] : null) || {
       totalTimeSpent: 0,
       coursesCompleted: 0,
       lessonsCompleted: 0,
