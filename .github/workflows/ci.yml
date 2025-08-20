@@ -66,7 +66,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Generate Prisma client
-        run: npx prisma generate --schema=packages/prisma/schemas/schema.prisma
+        run: npx prisma generate --schema=packages/prisma/scheams/schema.prisma
 
       - name: Build application
         run: npx nx build @beeat-be/apis --prod
