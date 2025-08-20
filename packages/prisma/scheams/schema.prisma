@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../apps/apis/src/generated/prisma"
 }
 
 datasource db {
@@ -9,14 +8,14 @@ datasource db {
 }
 
 model User {
-  id          String    @id @default(uuid())
-  email       String    @unique
-  fullName    String
-  phone       String?
-  bio         String?
-  avatar      String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id        String   @id @default(uuid())
+  email     String   @unique
+  fullName  String
+  phone     String?
+  bio       String?
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   lastLoginAt DateTime?
 
   preferences UserPreferences?
@@ -35,9 +34,9 @@ model UserPreferences {
   language String @default("en")
   timezone String @default("UTC")
 
-  emailNotifications        Boolean @default(true)
+  emailNotifications     Boolean @default(true)
   courseUpdateNotifications Boolean @default(true)
-  promotionNotifications    Boolean @default(false)
+  promotionNotifications Boolean @default(false)
   weeklyDigestNotifications Boolean @default(true)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -46,13 +45,13 @@ model UserPreferences {
 }
 
 model Instructor {
-  id            String   @id @default(uuid())
-  name          String
-  bio           String
-  avatar        String
-  rating        Float    @default(0)
-  studentsCount Int      @default(0)
-  createdAt     DateTime @default(now())
+  id           String @id @default(uuid())
+  name         String
+  bio          String
+  avatar       String
+  rating       Float  @default(0)
+  studentsCount Int   @default(0)
+  createdAt    DateTime @default(now())
 
   courses Course[]
 
@@ -71,28 +70,28 @@ model Category {
 }
 
 model Course {
-  id              String      @id @default(uuid())
+  id              String   @id @default(uuid())
   title           String
   description     String
   longDescription String
   thumbnail       String
   price           Float
   originalPrice   Float?
-  rating          Float       @default(0)
-  studentsCount   Int         @default(0)
+  rating          Float    @default(0)
+  studentsCount   Int      @default(0)
   duration        String
   level           CourseLevel
-  language        String      @default("English")
-  lastUpdated     DateTime    @default(now())
-  totalLessons    Int         @default(0)
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  language        String   @default("English")
+  lastUpdated     DateTime @default(now())
+  totalLessons    Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   instructorId String
   categoryId   String
 
-  instructor   Instructor          @relation(fields: [instructorId], references: [id])
-  category     Category            @relation(fields: [categoryId], references: [id])
+  instructor   Instructor         @relation(fields: [instructorId], references: [id])
+  category     Category           @relation(fields: [categoryId], references: [id])
   sections     CourseSection[]
   skills       CourseSkill[]
   requirements CourseRequirement[]
@@ -132,7 +131,7 @@ model Lesson {
 }
 
 model LessonResource {
-  id       String       @id @default(uuid())
+  id       String @id @default(uuid())
   title    String
   url      String
   type     ResourceType
@@ -180,14 +179,14 @@ model CourseEnrollment {
 }
 
 model LessonProgress {
-  id              String    @id @default(uuid())
-  userId          String
-  lessonId        String
-  completed       Boolean   @default(false)
-  completedAt     DateTime?
-  timeSpent       Int       @default(0) // in seconds
-  watchedDuration Int       @default(0) // in seconds
-  lastAccessedAt  DateTime  @default(now())
+  id            String    @id @default(uuid())
+  userId        String
+  lessonId      String
+  completed     Boolean   @default(false)
+  completedAt   DateTime?
+  timeSpent     Int       @default(0) // in seconds
+  watchedDuration Int     @default(0) // in seconds
+  lastAccessedAt DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
@@ -197,10 +196,10 @@ model LessonProgress {
 }
 
 model CartItem {
-  id       String   @id @default(uuid())
+  id       String @id @default(uuid())
   userId   String
   courseId String
-  quantity Int      @default(1)
+  quantity Int    @default(1)
   addedAt  DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -211,19 +210,19 @@ model CartItem {
 }
 
 model Payment {
-  id                    String        @id @default(uuid())
-  userId                String
-  amount                Float
-  currency              String        @default("VND")
-  status                PaymentStatus
-  paymentMethod         String
+  id            String        @id @default(uuid())
+  userId        String
+  amount        Float
+  currency      String        @default("VND")
+  status        PaymentStatus
+  paymentMethod String
   stripePaymentIntentId String?
-  createdAt             DateTime      @default(now())
-  paidAt                DateTime?
+  createdAt     DateTime      @default(now())
+  paidAt        DateTime?
 
-  user           User               @relation(fields: [userId], references: [id])
+  user         User           @relation(fields: [userId], references: [id])
   billingAddress BillingAddress?
-  orderItems     PaymentOrderItem[]
+  orderItems   PaymentOrderItem[]
 
   @@map("payments")
 }
@@ -255,11 +254,11 @@ model PaymentOrderItem {
 }
 
 model CourseAnalytics {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   courseId  String
   userId    String?
-  viewedAt  DateTime @default(now())
-  source    String? // "search"|"category"|"recommendation"|"direct"
+  viewedAt  DateTime  @default(now())
+  source    String?   // "search"|"category"|"recommendation"|"direct"
   referrer  String?
   ipAddress String?
 
@@ -269,17 +268,17 @@ model CourseAnalytics {
 }
 
 model UserAnalytics {
-  id                 String   @id @default(uuid())
-  userId             String
-  totalTimeSpent     Int      @default(0) // in seconds
-  coursesCompleted   Int      @default(0)
-  lessonsCompleted   Int      @default(0)
-  certificatesEarned Int      @default(0)
-  currentStreak      Int      @default(0) // in days
-  longestStreak      Int      @default(0) // in days
-  dailyGoalMinutes   Int      @default(30)
-  weeklyGoalMinutes  Int      @default(210)
-  lastUpdated        DateTime @default(now())
+  id                String   @id @default(uuid())
+  userId            String
+  totalTimeSpent    Int      @default(0) // in seconds
+  coursesCompleted  Int      @default(0)
+  lessonsCompleted  Int      @default(0)
+  certificatesEarned Int     @default(0)
+  currentStreak     Int      @default(0) // in days
+  longestStreak     Int      @default(0) // in days
+  dailyGoalMinutes  Int      @default(30)
+  weeklyGoalMinutes Int      @default(210)
+  lastUpdated       DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

@@ -15,5 +15,81 @@
       "default": "./dist/index.js"
     }
   },
-  "dependencies": {}
+  "dependencies": {},
+  "nx": {
+    "targets": {
+      "prisma-deploy": {
+        "executor": "@nx-tools/nx-prisma:deploy",
+        "options": {
+          "schema": "packages/prisma/scheams/schema.prisma"
+        }
+      },
+      "prisma-format": {
+        "executor": "@nx-tools/nx-prisma:format",
+        "options": {
+          "schema": "packages/prisma/scheams/schema.prisma"
+        }
+      },
+      "prisma-generate": {
+        "executor": "@nx-tools/nx-prisma:generate",
+        "options": {
+          "schema": "packages/prisma/scheams/schema.prisma"
+        }
+      },
+      "prisma-migrate": {
+        "executor": "@nx-tools/nx-prisma:migrate",
+        "options": {
+          "schema": "packages/prisma/scheams/schema.prisma"
+        }
+      },
+      "prisma-pull": {
+        "executor": "@nx-tools/nx-prisma:pull",
+        "options": {
+          "schema": "packages/prisma/scheams/schema.prisma"
+        }
+      },
+      "prisma-push": {
+        "executor": "@nx-tools/nx-prisma:push",
+        "options": {
+          "schema": "packages/prisma/scheams/schema.prisma"
+        }
+      },
+      "prisma-reset": {
+        "executor": "@nx-tools/nx-prisma:reset",
+        "options": {
+          "schema": "packages/prisma/scheams/schema.prisma"
+        }
+      },
+      "prisma-resolve": {
+        "executor": "@nx-tools/nx-prisma:resolve",
+        "options": {
+          "schema": "packages/prisma/scheams/schema.prisma"
+        }
+      },
+      "prisma-seed": {
+        "executor": "@nx-tools/nx-prisma:seed",
+        "options": {
+          "schema": "packages/prisma/scheams/schema.prisma"
+        }
+      },
+      "prisma-status": {
+        "executor": "@nx-tools/nx-prisma:status",
+        "options": {
+          "schema": "packages/prisma/scheams/schema.prisma"
+        }
+      },
+      "prisma-studio": {
+        "executor": "@nx-tools/nx-prisma:studio",
+        "options": {
+          "schema": "packages/prisma/scheams/schema.prisma"
+        }
+      },
+      "prisma-validate": {
+        "executor": "@nx-tools/nx-prisma:validate",
+        "options": {
+          "schema": "packages/prisma/scheams/schema.prisma"
+        }
+      }
+    }
+  }
 }

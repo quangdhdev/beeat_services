@@ -1,5 +1,5 @@
 import { prisma } from '../lib/database'
-import { CourseLevel, Prisma } from '../generated/prisma'
+import { CourseLevel, Prisma } from '@prisma/client'
 
 export interface GetCoursesQuery {
   page?: number

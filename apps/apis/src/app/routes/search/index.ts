@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from 'fastify'
 import { CourseService } from '../../../services/course.service'
 import { prisma } from '../../../lib/database'
-import { CourseLevel } from '../../../generated/prisma'
+import { CourseLevel } from '@prisma/client'
 
 const courseService = new CourseService()
 

@@ -1,5 +1,5 @@
 import { prisma } from '../lib/database'
-import { PaymentStatus, Prisma } from '../generated/prisma'
+import { PaymentStatus, Prisma } from '@prisma/client'
 
 export interface CreatePaymentIntentData {
   items: {

@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from 'fastify'
 import { requireAuth, AuthenticatedRequest } from '../../../lib/auth'
 import { PaymentService } from '../../../services/payment.service'
-import { PaymentStatus } from '../../../generated/prisma'
+import { PaymentStatus } from '@prisma/client'
 
 const paymentService = new PaymentService()
 

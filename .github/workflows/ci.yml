@@ -1,41 +1,101 @@
-name: CI
+name: Build and Deploy to Docker Hub
 
 on:
   push:
     branches:
       - main
+      - develop
+    tags:
+      - 'v*'
   pull_request:
+    branches:
+      - main
 
-permissions:
-  actions: read
-  contents: read
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: beeat-front-api
 
 jobs:
-  main:
+  # test:
+  #   name: Run Tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
+
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '20'
+  #         cache: 'yarn'
+
+  #     - name: Install dependencies
+  #       run: yarn install --frozen-lockfile
+
+      # - name: Lint code
+      #   run: npx nx lint @beeat-be/apis
+
+      # - name: Type check
+      #   run: npx nx typecheck @beeat-be/apis
+
+      # - name: Run unit tests (if any)
+      #   run: npx nx test @beeat-be/apis --passWithNoTests
+
+  build-and-deploy:
+    name: Build Application and Deploy Docker Image
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    outputs:
+      image-digest: ${{ steps.build-docker.outputs.digest }}
+      image-uri: ${{ steps.build-docker.outputs.image }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          filter: tree:0
           fetch-depth: 0
 
-      # This enables task distribution via Nx Cloud
-      # Run this command as early as possible, before dependencies are installed
-      # Learn more at https://nx.dev/ci/reference/nx-cloud-cli#npx-nxcloud-startcirun
-      # Uncomment this line to enable task distribution
-      # - run: npx nx start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
-
-      # Cache node_modules
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm'
+          node-version: '20'
+          cache: 'yarn'
 
-      - run: npm ci --legacy-peer-deps
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
-      # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
-      # - run: npx nx-cloud record -- echo Hello World
-      - run: npx nx run-many -t lint test build
-      # Nx Cloud recommends fixes for failures to help you get CI green faster. Learn more: https://nx.dev/ci/features/self-healing-ci
-      - run: npx nx fix-ci
-        if: always()
+      - name: Generate Prisma client
+        run: npx prisma generate --schema=packages/prisma/schemas/schema.prisma
+
+      - name: Build application
+        run: npx nx build @beeat-be/apis --prod
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        id: build-docker
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./apps/apis/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: quangdh/beeat-front-api:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            NODE_ENV=production
+          # Enable BuildKit for better caching
+          builder: ${{ steps.buildx.outputs.name }}
+          provenance: false
+          sbom: false

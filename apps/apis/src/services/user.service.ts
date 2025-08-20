@@ -1,5 +1,5 @@
 import { prisma } from '../lib/database'
-import { Prisma } from '../generated/prisma'
+import { Prisma } from '@prisma/client'
 import { loggers } from '../lib/logger'
 
 export interface UpdateUserProfileData {
