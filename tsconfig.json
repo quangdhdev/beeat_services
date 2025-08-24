@@ -11,6 +11,12 @@
     },
     {
       "path": "./packages/prisma"
+    },
+    {
+      "path": "./apps/demoqa_fe-e2e"
+    },
+    {
+      "path": "./apps/demoqa_fe"
     }
   ]
 }
