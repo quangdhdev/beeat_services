@@ -17,6 +17,12 @@
     },
     {
       "path": "./apps/demoqa_fe"
+    },
+    {
+      "path": "./apps/admin-fe-e2e"
+    },
+    {
+      "path": "./apps/admin-fe"
     }
   ]
 }
