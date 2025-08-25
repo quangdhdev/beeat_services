@@ -1,7 +1,13 @@
 import { FastifyPluginAsync } from 'fastify'
 import { CourseService } from '../../../services/course.service'
 import { prisma } from '../../../lib/database'
-import { CourseLevel } from '@prisma/client'
+
+// Define CourseLevel enum locally until Prisma client is generated
+enum CourseLevel {
+  BEGINNER = 'BEGINNER',
+  INTERMEDIATE = 'INTERMEDIATE',
+  ADVANCED = 'ADVANCED'
+}
 
 const courseService = new CourseService()
 

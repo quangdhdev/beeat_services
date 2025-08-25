@@ -12,6 +12,58 @@ import {
 const userService = new UserService()
 
 const user: FastifyPluginAsync = async (fastify): Promise<void> => {
+  // POST /user/sync - Sync user data from JWT token to database
+  fastify.withTypeProvider<ZodTypeProvider>().post('/sync', {
+    schema: {
+      tags: ['User'],
+      summary: 'Sync user data to database',
+      description: 'Create or update user data in database using JWT token',
+      security: [{ bearerAuth: [] }],
+      response: {
+        200: SuccessResponseSchema,
+        400: ErrorResponseSchema,
+        500: ErrorResponseSchema
+      }
+    },
+    preHandler: requireAuth()
+  }, async (request, reply) => {
+    const authRequest = request as AuthenticatedRequest
+    try {
+      // Get user data from JWT token
+      const supabaseUser = {
+        id: authRequest.user.id,
+        email: authRequest.user.email,
+        user_metadata: {
+          full_name: authRequest.user.email.split('@')[0] // Fallback to email prefix
+        }
+      }
+      // Create or update user in database
+      const user = await userService.createOrUpdateUser(supabaseUser)
+      
+      reply.send({
+        success: true,
+        data: {
+          message: 'User data synced successfully',
+          user: {
+            id: user.id,
+            email: user.email,
+            fullName: user.fullName,
+            lastLoginAt: user.lastLoginAt
+          }
+        }
+      })
+    } catch (error) {
+      request.log.error(error, 'Error syncing user data')
+      reply.code(500).send({
+        success: false,
+        error: {
+          code: 'SYSTEM_001',
+          message: 'Internal server error'
+        }
+      })
+    }
+  })
+
   // GET /user/profile - Get user profile
   fastify.withTypeProvider<ZodTypeProvider>().get('/profile', {
     schema: {
