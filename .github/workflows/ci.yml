@@ -91,8 +91,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
-      # - name: Install dependencies
-      #   run: yarn install --frozen-lockfile
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
       - name: Generate Prisma client
         run: npx prisma generate --schema=packages/prisma/scheams/schema.prisma
@@ -145,8 +145,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      # - name: Install dependencies
-      #   run: yarn install --frozen-lockfile
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
       - name: Build project
         run: npx nx build @apps/demoqa_fe
@@ -177,8 +177,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
-      # - name: Install dependencies
-      #   run: yarn install --frozen-lockfile
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
       - name: Create .env file
         run: |
