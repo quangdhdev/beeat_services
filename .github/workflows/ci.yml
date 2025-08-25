@@ -36,14 +36,8 @@ jobs:
         id: affected
         run: |
           # Set base reference for comparison
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            BASE_REF="${{ github.event.pull_request.base.sha }}"
-          else
-            BASE_REF="origin/main~1"
-          fi
-          
+          BASE_REF="HEAD"
           echo "Checking affected projects against base: $BASE_REF"
-          
           # Check if @apps/apis is affected
           if npx nx show projects --affected --base=$BASE_REF | grep -q "@beeat-be/apis"; then
             echo "api-affected=true" >> $GITHUB_OUTPUT
