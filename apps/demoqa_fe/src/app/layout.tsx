@@ -5,7 +5,7 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'DemoQA - Testing Platform',
+  title: 'DemoQA - Testing Platform for QA',
   description: 'A comprehensive testing platform for developers and QA testers',
 };
 
