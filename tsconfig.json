@@ -23,6 +23,12 @@
     },
     {
       "path": "./apps/admin-fe"
+    },
+    {
+      "path": "./apps/main-app-fe-e2e"
+    },
+    {
+      "path": "./apps/main-app-fe"
     }
   ]
 }

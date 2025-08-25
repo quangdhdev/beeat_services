@@ -3536,21 +3536,6 @@
     rollup-plugin-typescript2 "^0.36.0"
     tslib "^2.3.0"
 
-"@nx/vite@21.4.0":
-  version "21.4.0"
-  resolved "https://registry.yarnpkg.com/@nx/vite/-/vite-21.4.0.tgz#a9cd9aad37041ef1655f0c7704abfba098768098"
-  integrity sha512-eiufmCbFT4vMTJgiXfPOe8CbA6mUjigjJCzdMxQqxB8oHp3Wap3hTCEBi8A7j0a/kaT6ca31yQflR+VlzfB/Nw==
-  dependencies:
-    "@nx/devkit" "21.4.0"
-    "@nx/js" "21.4.0"
-    "@phenomnomnominal/tsquery" "~5.0.1"
-    ajv "^8.0.0"
-    enquirer "~2.3.6"
-    picomatch "4.0.2"
-    semver "^7.6.3"
-    tsconfig-paths "^4.1.2"
-    tslib "^2.3.0"
-
 "@nx/vite@21.4.1":
   version "21.4.1"
   resolved "https://registry.yarnpkg.com/@nx/vite/-/vite-21.4.1.tgz#95efa162aa3d4ae47b95b511aa88c1679281e089"
@@ -3564,18 +3549,6 @@
     picomatch "4.0.2"
     semver "^7.6.3"
     tsconfig-paths "^4.1.2"
-    tslib "^2.3.0"
-
-"@nx/web@21.4.0":
-  version "21.4.0"
-  resolved "https://registry.yarnpkg.com/@nx/web/-/web-21.4.0.tgz#270d477764d2d706031ff16557a37b005286dcd0"
-  integrity sha512-SFEQq/BCZHFglWd9bKjzlwShQjJxwcxrTvnJrq8S7Xyj34rcvZh4L5mFEjR+Q/+iGJLA3DBoBDjOb9lgCm25Uw==
-  dependencies:
-    "@nx/devkit" "21.4.0"
-    "@nx/js" "21.4.0"
-    detect-port "^1.5.1"
-    http-server "^14.1.0"
-    picocolors "^1.1.0"
     tslib "^2.3.0"
 
 "@nx/web@21.4.1":

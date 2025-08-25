@@ -65,6 +65,15 @@ jobs:
             echo "Admin FE project is not affected"
           fi
 
+          # Check if @apps/main-app-fe is affected
+          if npx nx show projects --affected --base=$BASE_REF | grep -q "@apps/main-app-fe"; then
+            echo "mainappfe-affected=true" >> $GITHUB_OUTPUT
+            echo "Main App FE project is affected"
+          else
+            echo "mainappfe-affected=false" >> $GITHUB_OUTPUT
+            echo "Main App FE project is not affected"
+          fi
+
   build-and-deploy-api:
     name: Build API and Deploy Docker Image
     runs-on: ubuntu-latest
@@ -191,4 +200,41 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy apps/admin-fe/dist --project-name=beeat-console
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+  build-and-deploy-main-app-fe:
+    name: Build Main App FE and Deploy to Cloudflare Pages
+    needs: detect-changes
+    runs-on: ubuntu-latest
+    if: needs.detect-changes.outputs.mainappfe-affected == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Create .env file
+        run: |
+          echo "VITE_SUPABASE_URL=${{ vars.VITE_SUPABASE_URL }}" >> .env
+          echo "VITE_SUPABASE_ANON_KEY=${{ vars.VITE_SUPABASE_ANON_KEY }}" >> .env
+          echo "VITE_API_BASE_URL=${{ vars.VITE_API_BASE_URL }}" >> .env
+
+      - name: Build project
+        run: npx nx build @apps/main-app-fe
+        env:
+          NODE_ENV: production
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy apps/main-app-fe/dist --project-name=beeat-main-app
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
