@@ -3,7 +3,7 @@ name: Build and Deploy to Docker Hub
 on:
   push:
     branches:
-      - dev
+      - main
 
 env:
   REGISTRY: docker.io
@@ -26,7 +26,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
       - name: Install dependencies
@@ -88,11 +88,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      # - name: Install dependencies
+      #   run: yarn install --frozen-lockfile
 
       - name: Generate Prisma client
         run: npx prisma generate --schema=packages/prisma/scheams/schema.prisma
@@ -145,8 +145,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      # - name: Install dependencies
+      #   run: yarn install --frozen-lockfile
 
       - name: Build project
         run: npx nx build @apps/demoqa_fe
@@ -177,8 +177,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      # - name: Install dependencies
+      #   run: yarn install --frozen-lockfile
 
       - name: Create .env file
         run: |
@@ -187,7 +187,7 @@ jobs:
           echo "VITE_API_BASE_URL=${{ vars.VITE_API_BASE_URL }}" >> .env
 
       - name: Build project
-        run: yarn build
+        run: npx nx build @apps/admin-fe
         env:
           NODE_ENV: production
 
