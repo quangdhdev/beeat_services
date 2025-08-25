@@ -36,7 +36,7 @@ jobs:
         id: affected
         run: |
           # Set base reference for comparison
-          BASE_REF="HEAD"
+          BASE_REF="HEAD~1"
           echo "Checking affected projects against base: $BASE_REF"
           # Check if @apps/apis is affected
           if npx nx show projects --affected --base=$BASE_REF | grep -q "@beeat-be/apis"; then
