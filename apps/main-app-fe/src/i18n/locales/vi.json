@@ -1,0 +1,308 @@
+{
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "search": "Tìm kiếm",
+    "filter": "Lọc",
+    "clear": "Xóa",
+    "submit": "Gửi",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "previous": "Trước",
+    "close": "Đóng",
+    "confirm": "Xác nhận",
+    "yes": "Có",
+    "no": "Không"
+  },
+  "header": {
+    "home": "Trang chủ",
+    "courses": "Khóa học",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "logout": "Đăng xuất",
+    "settings": "Cài đặt tài khoản",
+    "myCourses": "Khóa học của tôi",
+    "cart": "Giỏ hàng",
+    "searchPlaceholder": "Tìm kiếm khóa học..."
+  },
+  "home": {
+    "title": "Học Automation Testing",
+    "subtitle": "Không Giới Hạn",
+    "description": "Khám phá hàng nghìn khóa học automation testing từ các chuyên gia hàng đầu và nâng cao kỹ năng testing của bạn.",
+    "exploreCourses": "Khám phá khóa học",
+    "startTeaching": "Bắt đầu giảng dạy",
+    "stats": {
+      "courses": "Khóa học Automation Testing",
+      "students": "Học viên tích cực",
+      "rating": "Đánh giá trung bình",
+      "certificates": "Chứng chỉ đã cấp"
+    },
+    "featuredCourses": "Khóa học nổi bật",
+    "featuredDescription": "Khám phá các khóa học automation testing phổ biến nhất được giảng dạy bởi các chuyên gia trong ngành",
+    "viewAllCourses": "Xem tất cả khóa học",
+    "cta": {
+      "title": "Sẵn sàng bắt đầu học?",
+      "description": "Tham gia cùng hàng nghìn học viên đang học automation testing trên BeeAt. Bắt đầu hành trình của bạn ngay hôm nay.",
+      "startNow": "Bắt đầu ngay"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Đăng nhập vào BeeAt",
+      "subtitle": "Hoặc",
+      "createAccount": "tạo tài khoản mới",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "rememberMe": "Ghi nhớ đăng nhập",
+      "forgotPassword": "Quên mật khẩu?",
+      "loginButton": "Đăng nhập",
+      "loggingIn": "Đang đăng nhập...",
+      "orLoginWith": "Hoặc đăng nhập với",
+      "google": "Google",
+      "facebook": "Facebook"
+    },
+    "register": {
+      "title": "Tạo tài khoản BeeAt",
+      "subtitle": "Hoặc",
+      "existingAccount": "đăng nhập vào tài khoản có sẵn",
+      "fullName": "Họ và tên",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "confirmPassword": "Xác nhận mật khẩu",
+      "acceptTerms": "Tôi đồng ý với",
+      "termsOfService": "Điều khoản sử dụng",
+      "privacyPolicy": "Chính sách bảo mật",
+      "createButton": "Tạo tài khoản",
+      "creating": "Đang tạo tài khoản...",
+      "orRegisterWith": "Hoặc đăng ký với",
+      "success": {
+        "title": "Đăng ký thành công!",
+        "subtitle": "Vui lòng kiểm tra email để xác nhận tài khoản của bạn.",
+        "description": "Chúng tôi đã gửi email xác nhận đến {{email}}. Vui lòng kiểm tra hộp thư đến và nhấp vào liên kết để kích hoạt tài khoản.",
+        "backToLogin": "Quay lại đăng nhập"
+      }
+    },
+    "forgotPassword": {
+      "title": "Quên mật khẩu?",
+      "subtitle": "Nhập email của bạn và chúng tôi sẽ gửi hướng dẫn đặt lại mật khẩu.",
+      "email": "Email",
+      "sendButton": "Gửi hướng dẫn đặt lại mật khẩu",
+      "sending": "Đang gửi...",
+      "backToLogin": "Quay lại đăng nhập",
+      "success": {
+        "title": "Email đã được gửi!",
+        "subtitle": "Chúng tôi đã gửi hướng dẫn đặt lại mật khẩu đến email của bạn.",
+        "description": "Vui lòng kiểm tra hộp thư đến (và cả thư mục spam) của bạn để tìm email từ BeeAt.",
+        "resend": "Gửi lại"
+      }
+    },
+    "errors": {
+      "passwordMismatch": "Mật khẩu xác nhận không khớp!",
+      "acceptTerms": "Vui lòng đồng ý với điều khoản sử dụng!",
+      "unexpectedError": "Đã xảy ra lỗi không mong muốn"
+    }
+  },
+  "courses": {
+    "title": "Tất cả khóa học",
+    "description": "Khám phá {{count}} khóa học automation testing để nâng cao kỹ năng của bạn",
+    "searchPlaceholder": "Tìm kiếm khóa học, giảng viên, hoặc chủ đề...",
+    "filters": "Bộ lọc",
+    "filterByCategory": "Lọc theo danh mục:",
+    "allCategories": "Tất cả danh mục",
+    "showing": "Hiển thị {{filtered}} trong số {{total}} khóa học",
+    "searchFor": "cho \"{{term}}\"",
+    "inCategory": "trong {{category}}",
+    "noResults": {
+      "title": "Không tìm thấy khóa học",
+      "description": "Thử điều chỉnh từ khóa tìm kiếm hoặc bộ lọc để tìm những gì bạn đang tìm kiếm.",
+      "clearFilters": "Xóa bộ lọc"
+    },
+    "card": {
+      "by": "Bởi",
+      "students": "học viên",
+      "hours": "giờ"
+    }
+  },
+  "courseDetail": {
+    "notFound": "Không tìm thấy khóa học",
+    "backToCourses": "Quay lại danh sách khóa học",
+    "enrollNow": "Đăng ký ngay",
+    "addToWishlist": "Thêm vào danh sách yêu thích",
+    "studentsEnrolled": "học viên đã đăng ký",
+    "totalHours": "Tổng cộng",
+    "lessons": "bài học",
+    "certificate": "Chứng chỉ hoàn thành",
+    "lastUpdated": "Cập nhật lần cuối",
+    "whatYouWillLearn": "Bạn sẽ học được gì",
+    "requirements": "Yêu cầu",
+    "courseContent": "Nội dung khóa học",
+    "section": "Phần",
+    "preview": "Xem trước",
+    "aboutInstructor": "Về giảng viên",
+    "createdBy": "Được tạo bởi",
+    "discount": "Giảm {{percent}}%"
+  },
+  "cart": {
+    "title": "Giỏ hàng của bạn",
+    "itemsInCart": "{{count}} khóa học trong giỏ hàng",
+    "continueShopping": "Tiếp tục mua sắm",
+    "empty": {
+      "title": "Giỏ hàng của bạn đang trống",
+      "description": "Hãy khám phá các khóa học tuyệt vời và thêm vào giỏ hàng!"
+    },
+    "orderSummary": "Tóm tắt đơn hàng",
+    "subtotal": "Tạm tính:",
+    "savings": "Tiết kiệm:",
+    "total": "Tổng cộng:",
+    "checkout": "Thanh toán",
+    "terms": "Bằng cách thanh toán, bạn đồng ý với",
+    "termsOfService": "Điều khoản sử dụng"
+  },
+  "checkout": {
+    "title": "Thanh toán",
+    "backToCart": "Quay lại giỏ hàng",
+    "contactInfo": "Thông tin liên hệ",
+    "email": "Email",
+    "fullName": "Họ và tên",
+    "paymentMethod": "Phương thức thanh toán",
+    "creditCard": "Thẻ tín dụng / Thẻ ghi nợ",
+    "momo": "Ví MoMo",
+    "banking": "Chuyển khoản ngân hàng",
+    "cardNumber": "Số thẻ",
+    "expiryDate": "Ngày hết hạn",
+    "cvv": "CVV",
+    "billingAddress": "Địa chỉ thanh toán",
+    "address": "Địa chỉ",
+    "city": "Thành phố",
+    "zipCode": "Mã bưu điện",
+    "yourOrder": "Đơn hàng của bạn",
+    "completePayment": "Hoàn tất thanh toán",
+    "securePayment": "Thanh toán an toàn và bảo mật"
+  },
+  "myCourses": {
+    "title": "Khóa học của tôi",
+    "description": "Theo dõi tiến độ học tập và tiếp tục hành trình của bạn",
+    "stats": {
+      "totalCourses": "Tổng khóa học",
+      "inProgress": "Đang học",
+      "completed": "Đã hoàn thành",
+      "certificates": "Chứng chỉ"
+    },
+    "searchPlaceholder": "Tìm kiếm khóa học...",
+    "filters": {
+      "all": "Tất cả",
+      "inProgress": "Đang học",
+      "completed": "Đã hoàn thành",
+      "notStarted": "Chưa bắt đầu"
+    },
+    "progress": "Tiến độ: {{percent}}%",
+    "lessons": "{{completed}}/{{total}} bài học",
+    "lastAccessed": "Truy cập: {{time}}",
+    "enrolled": "Đăng ký: {{date}}",
+    "startLearning": "Bắt đầu học",
+    "continueLearning": "Tiếp tục học",
+    "review": "Ôn tập",
+    "noResults": {
+      "title": "Không tìm thấy khóa học",
+      "searchDescription": "Thử điều chỉnh từ khóa tìm kiếm",
+      "emptyDescription": "Bạn chưa đăng ký khóa học nào",
+      "exploreCourses": "Khám phá khóa học"
+    }
+  },
+  "settings": {
+    "title": "Cài đặt tài khoản",
+    "description": "Quản lý thông tin tài khoản và tùy chọn của bạn",
+    "tabs": {
+      "profile": "Hồ sơ",
+      "security": "Bảo mật",
+      "notifications": "Thông báo",
+      "billing": "Thanh toán",
+      "preferences": "Tùy chọn"
+    },
+    "profile": {
+      "title": "Thông tin cá nhân",
+      "fullName": "Họ và tên",
+      "email": "Email",
+      "phone": "Số điện thoại",
+      "bio": "Giới thiệu bản thân",
+      "bioPlaceholder": "Viết vài dòng về bản thân...",
+      "saveChanges": "Lưu thay đổi"
+    },
+    "security": {
+      "title": "Bảo mật tài khoản",
+      "currentPassword": "Mật khẩu hiện tại",
+      "newPassword": "Mật khẩu mới",
+      "confirmPassword": "Xác nhận mật khẩu mới",
+      "updatePassword": "Cập nhật mật khẩu"
+    },
+    "notifications": {
+      "title": "Cài đặt thông báo",
+      "emailNotifications": {
+        "title": "Thông báo qua email",
+        "description": "Nhận thông báo về khóa học và hoạt động tài khoản"
+      },
+      "courseUpdates": {
+        "title": "Cập nhật khóa học",
+        "description": "Thông báo khi có bài học mới hoặc cập nhật nội dung"
+      },
+      "promotions": {
+        "title": "Khuyến mãi và ưu đãi",
+        "description": "Nhận thông tin về các chương trình giảm giá"
+      },
+      "weeklyDigest": {
+        "title": "Tóm tắt hàng tuần",
+        "description": "Báo cáo tiến độ học tập và khuyến nghị khóa học"
+      }
+    },
+    "billing": {
+      "title": "Thông tin thanh toán",
+      "paymentMethod": "Phương thức thanh toán",
+      "paymentHistory": "Lịch sử thanh toán"
+    },
+    "preferences": {
+      "title": "Tùy chọn hiển thị",
+      "darkMode": {
+        "title": "Chế độ tối",
+        "description": "Sử dụng giao diện tối để bảo vệ mắt"
+      },
+      "language": "Ngôn ngữ",
+      "timezone": "Múi giờ"
+    }
+  },
+  "learning": {
+    "backToCourses": "Quay lại khóa học",
+    "progress": "Tiến độ: {{percent}}%",
+    "completed": "Đã hoàn thành",
+    "markComplete": "Đánh dấu hoàn thành",
+    "tabs": {
+      "overview": "Tổng quan",
+      "notes": "Ghi chú",
+      "qa": "Hỏi đáp",
+      "reviews": "Đánh giá"
+    },
+    "courseContent": "Nội dung khóa học",
+    "lessonsCompleted": "{{completed}}/{{total}} bài học đã hoàn thành"
+  },
+  "categories": {
+    "allCategories": "Tất cả danh mục",
+    "webTesting": "Web Testing",
+    "apiTesting": "API Testing",
+    "mobileTesting": "Mobile Testing",
+    "performanceTesting": "Performance Testing",
+    "frameworkDesign": "Framework Design",
+    "securityTesting": "Security Testing"
+  },
+  "levels": {
+    "beginner": "Cơ bản",
+    "intermediate": "Trung cấp",
+    "advanced": "Nâng cao"
+  },
+  "languages": {
+    "vietnamese": "Tiếng Việt",
+    "english": "English"
+  }
+}

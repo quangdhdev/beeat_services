@@ -14,10 +14,9 @@ export default defineConfig(() => ({
     host: 'localhost',
   },
   plugins: [react()],
-  // Uncomment this if you are using workers.
-  // worker: {
-  //  plugins: [ nxViteTsPaths() ],
-  // },
+  optimizeDeps: {
+    exclude: ['lucide-react'],
+  },
   build: {
     outDir: './dist',
     emptyOutDir: true,

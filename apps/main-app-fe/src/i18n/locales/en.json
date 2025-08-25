@@ -1,0 +1,308 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "submit": "Submit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "header": {
+    "home": "Home",
+    "courses": "Courses",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "settings": "Account Settings",
+    "myCourses": "My Courses",
+    "cart": "Cart",
+    "searchPlaceholder": "Search courses..."
+  },
+  "home": {
+    "title": "Learn Automation Testing",
+    "subtitle": "Without Limits",
+    "description": "Discover thousands of automation testing courses from top experts and enhance your testing skills.",
+    "exploreCourses": "Explore Courses",
+    "startTeaching": "Start Teaching",
+    "stats": {
+      "courses": "Automation Testing Courses",
+      "students": "Active Students",
+      "rating": "Average Rating",
+      "certificates": "Certificates Issued"
+    },
+    "featuredCourses": "Featured Courses",
+    "featuredDescription": "Discover the most popular automation testing courses taught by industry experts",
+    "viewAllCourses": "View All Courses",
+    "cta": {
+      "title": "Ready to start learning?",
+      "description": "Join thousands of students learning automation testing on BeeAt. Start your journey today.",
+      "startNow": "Start Now"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in to BeeAt",
+      "subtitle": "Or",
+      "createAccount": "create a new account",
+      "email": "Email",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "loginButton": "Sign in",
+      "loggingIn": "Signing in...",
+      "orLoginWith": "Or sign in with",
+      "google": "Google",
+      "facebook": "Facebook"
+    },
+    "register": {
+      "title": "Create BeeAt Account",
+      "subtitle": "Or",
+      "existingAccount": "sign in to existing account",
+      "fullName": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "acceptTerms": "I agree to the",
+      "termsOfService": "Terms of Service",
+      "privacyPolicy": "Privacy Policy",
+      "createButton": "Create Account",
+      "creating": "Creating account...",
+      "orRegisterWith": "Or register with",
+      "success": {
+        "title": "Registration Successful!",
+        "subtitle": "Please check your email to verify your account.",
+        "description": "We've sent a confirmation email to {{email}}. Please check your inbox and click the link to activate your account.",
+        "backToLogin": "Back to Login"
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot Password?",
+      "subtitle": "Enter your email and we'll send you password reset instructions.",
+      "email": "Email",
+      "sendButton": "Send Password Reset Instructions",
+      "sending": "Sending...",
+      "backToLogin": "Back to Login",
+      "success": {
+        "title": "Email Sent!",
+        "subtitle": "We've sent password reset instructions to your email.",
+        "description": "Please check your inbox (and spam folder) for an email from BeeAt.",
+        "resend": "Resend"
+      }
+    },
+    "errors": {
+      "passwordMismatch": "Passwords do not match!",
+      "acceptTerms": "Please accept the terms of service!",
+      "unexpectedError": "An unexpected error occurred"
+    }
+  },
+  "courses": {
+    "title": "All Courses",
+    "description": "Explore {{count}} automation testing courses to enhance your skills",
+    "searchPlaceholder": "Search courses, instructors, or topics...",
+    "filters": "Filters",
+    "filterByCategory": "Filter by category:",
+    "allCategories": "All Categories",
+    "showing": "Showing {{filtered}} of {{total}} courses",
+    "searchFor": "for \"{{term}}\"",
+    "inCategory": "in {{category}}",
+    "noResults": {
+      "title": "No courses found",
+      "description": "Try adjusting your search terms or filters to find what you're looking for.",
+      "clearFilters": "Clear Filters"
+    },
+    "card": {
+      "by": "By",
+      "students": "students",
+      "hours": "hours"
+    }
+  },
+  "courseDetail": {
+    "notFound": "Course not found",
+    "backToCourses": "Back to course list",
+    "enrollNow": "Enroll Now",
+    "addToWishlist": "Add to Wishlist",
+    "studentsEnrolled": "students enrolled",
+    "totalHours": "Total",
+    "lessons": "lessons",
+    "certificate": "Certificate of completion",
+    "lastUpdated": "Last updated",
+    "whatYouWillLearn": "What you'll learn",
+    "requirements": "Requirements",
+    "courseContent": "Course Content",
+    "section": "Section",
+    "preview": "Preview",
+    "aboutInstructor": "About the Instructor",
+    "createdBy": "Created by",
+    "discount": "{{percent}}% off"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "itemsInCart": "{{count}} courses in cart",
+    "continueShopping": "Continue Shopping",
+    "empty": {
+      "title": "Your cart is empty",
+      "description": "Explore amazing courses and add them to your cart!"
+    },
+    "orderSummary": "Order Summary",
+    "subtotal": "Subtotal:",
+    "savings": "Savings:",
+    "total": "Total:",
+    "checkout": "Checkout",
+    "terms": "By proceeding to checkout, you agree to our",
+    "termsOfService": "Terms of Service"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "backToCart": "Back to Cart",
+    "contactInfo": "Contact Information",
+    "email": "Email",
+    "fullName": "Full Name",
+    "paymentMethod": "Payment Method",
+    "creditCard": "Credit/Debit Card",
+    "momo": "MoMo Wallet",
+    "banking": "Bank Transfer",
+    "cardNumber": "Card Number",
+    "expiryDate": "Expiry Date",
+    "cvv": "CVV",
+    "billingAddress": "Billing Address",
+    "address": "Address",
+    "city": "City",
+    "zipCode": "ZIP Code",
+    "yourOrder": "Your Order",
+    "completePayment": "Complete Payment",
+    "securePayment": "Secure and Safe Payment"
+  },
+  "myCourses": {
+    "title": "My Courses",
+    "description": "Track your learning progress and continue your journey",
+    "stats": {
+      "totalCourses": "Total Courses",
+      "inProgress": "In Progress",
+      "completed": "Completed",
+      "certificates": "Certificates"
+    },
+    "searchPlaceholder": "Search courses...",
+    "filters": {
+      "all": "All",
+      "inProgress": "In Progress",
+      "completed": "Completed",
+      "notStarted": "Not Started"
+    },
+    "progress": "Progress: {{percent}}%",
+    "lessons": "{{completed}}/{{total}} lessons",
+    "lastAccessed": "Accessed: {{time}}",
+    "enrolled": "Enrolled: {{date}}",
+    "startLearning": "Start Learning",
+    "continueLearning": "Continue Learning",
+    "review": "Review",
+    "noResults": {
+      "title": "No courses found",
+      "searchDescription": "Try adjusting your search terms",
+      "emptyDescription": "You haven't enrolled in any courses yet",
+      "exploreCourses": "Explore Courses"
+    }
+  },
+  "settings": {
+    "title": "Account Settings",
+    "description": "Manage your account information and preferences",
+    "tabs": {
+      "profile": "Profile",
+      "security": "Security",
+      "notifications": "Notifications",
+      "billing": "Billing",
+      "preferences": "Preferences"
+    },
+    "profile": {
+      "title": "Personal Information",
+      "fullName": "Full Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "bio": "Bio",
+      "bioPlaceholder": "Write a few lines about yourself...",
+      "saveChanges": "Save Changes"
+    },
+    "security": {
+      "title": "Account Security",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "updatePassword": "Update Password"
+    },
+    "notifications": {
+      "title": "Notification Settings",
+      "emailNotifications": {
+        "title": "Email Notifications",
+        "description": "Receive notifications about courses and account activity"
+      },
+      "courseUpdates": {
+        "title": "Course Updates",
+        "description": "Get notified when new lessons or content updates are available"
+      },
+      "promotions": {
+        "title": "Promotions and Offers",
+        "description": "Receive information about discount programs"
+      },
+      "weeklyDigest": {
+        "title": "Weekly Digest",
+        "description": "Learning progress reports and course recommendations"
+      }
+    },
+    "billing": {
+      "title": "Billing Information",
+      "paymentMethod": "Payment Method",
+      "paymentHistory": "Payment History"
+    },
+    "preferences": {
+      "title": "Display Preferences",
+      "darkMode": {
+        "title": "Dark Mode",
+        "description": "Use dark interface to protect your eyes"
+      },
+      "language": "Language",
+      "timezone": "Timezone"
+    }
+  },
+  "learning": {
+    "backToCourses": "Back to Courses",
+    "progress": "Progress: {{percent}}%",
+    "completed": "Completed",
+    "markComplete": "Mark as Complete",
+    "tabs": {
+      "overview": "Overview",
+      "notes": "Notes",
+      "qa": "Q&A",
+      "reviews": "Reviews"
+    },
+    "courseContent": "Course Content",
+    "lessonsCompleted": "{{completed}}/{{total}} lessons completed"
+  },
+  "categories": {
+    "allCategories": "All Categories",
+    "webTesting": "Web Testing",
+    "apiTesting": "API Testing",
+    "mobileTesting": "Mobile Testing",
+    "performanceTesting": "Performance Testing",
+    "frameworkDesign": "Framework Design",
+    "securityTesting": "Security Testing"
+  },
+  "levels": {
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced"
+  },
+  "languages": {
+    "vietnamese": "Tiếng Việt",
+    "english": "English"
+  }
+}
