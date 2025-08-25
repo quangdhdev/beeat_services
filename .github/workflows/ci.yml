@@ -17,6 +17,7 @@ jobs:
       api-affected: ${{ steps.affected.outputs.api-affected }}
       demoqafe-affected: ${{ steps.affected.outputs.demoqafe-affected }}
       adminfe-affected: ${{ steps.affected.outputs.adminfe-affected }}
+      mainappfe-affected: ${{ steps.affected.outputs.mainappfe-affected }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
