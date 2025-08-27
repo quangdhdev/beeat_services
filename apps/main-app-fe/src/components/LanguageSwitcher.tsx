@@ -10,8 +10,8 @@ const LanguageSwitcher: React.FC = () => {
   const location = useLocation();
 
   const languages = [
-    { code: "vi", name: t("languages.vietnamese"), flag: "🇻🇳" },
-    { code: "en", name: t("languages.english"), flag: "🇺🇸" },
+    { code: "vi", name: t("languages.vietnamese"), flag: "VN" },
+    { code: "en", name: t("languages.english"), flag: "US" },
   ];
 
   const currentLanguage =
@@ -32,26 +32,26 @@ const LanguageSwitcher: React.FC = () => {
   return (
     <div className="relative group">
       <button className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors border border-gray-200 shadow-sm">
-        <span className="text-lg">{currentLanguage.flag}</span>
         <span className="text-sm font-medium text-gray-700 hidden sm:block">
-          {currentLanguage.code.toUpperCase()}
+          {currentLanguage.name} ({currentLanguage.flag.toUpperCase()})
         </span>
         <ChevronDown className="h-4 w-4 text-gray-400" />
       </button>
 
-      <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+      <div className="absolute left-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
         {languages.map((language) => (
           <button
             key={language.code}
             onClick={() => changeLanguage(language.code)}
             className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 transition-colors flex items-center space-x-3 ${
               i18n.language === language.code
-                ? "bg-pink-50 text-pink-600"
-                : "text-gray-700"
+                ? 'bg-pink-50 text-pink-600'
+                : 'text-gray-700'
             }`}
           >
-            <span className="text-lg">{language.flag}</span>
-            <span className="flex-1">{language.code.toUpperCase()}</span>
+            <span className="flex-1">
+              {language.name} ({language.flag.toUpperCase()})
+            </span>
             {i18n.language === language.code && (
               <span className="ml-auto text-pink-600">✓</span>
             )}

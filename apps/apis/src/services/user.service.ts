@@ -155,10 +155,7 @@ export class UserService {
       const userData = {
         id: supabaseUser.id,
         email: supabaseUser.email,
-        fullName:
-          supabaseUser.user_metadata?.full_name ||
-          supabaseUser.email.split('@')[0] ||
-          'User',
+        fullName: supabaseUser.user_metadata?.full_name || '',
         lastLoginAt: new Date(),
       };
 
@@ -198,7 +195,7 @@ export class UserService {
         // If user found by email but ID is different, update the ID
         const updateData: any = {
           lastLoginAt: userData.lastLoginAt,
-          fullName: userData.fullName,
+          fullName: existingUser.fullName,
         };
 
         // Only update ID if it's different (to avoid conflicts)

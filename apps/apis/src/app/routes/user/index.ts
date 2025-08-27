@@ -8,6 +8,7 @@ import {
   SuccessResponseSchema,
   ErrorResponseSchema
 } from '../../../lib/schemas'
+import { jwtDecode } from '../../../lib/utils'
 
 const userService = new UserService()
 
@@ -28,13 +29,16 @@ const user: FastifyPluginAsync = async (fastify): Promise<void> => {
     preHandler: requireAuth()
   }, async (request, reply) => {
     const authRequest = request as AuthenticatedRequest
+
+    const jwtPayload = jwtDecode(request);
+
     try {
       // Get user data from JWT token
       const supabaseUser = {
         id: authRequest.user.id,
         email: authRequest.user.email,
         user_metadata: {
-          full_name: authRequest.user.email.split('@')[0] // Fallback to email prefix
+          full_name: jwtPayload.user_metadata?.full_name || ''
         }
       }
       // Create or update user in database
