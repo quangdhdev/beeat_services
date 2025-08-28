@@ -44,3 +44,23 @@ export function useUploadAvatarMutation() {
     }
   );
 }
+
+// Update password mutation
+export function useUpdatePasswordMutation() {
+  return useApiMutation(
+    (passwordData: {
+      currentPassword: string;
+      newPassword: string;
+      confirmPassword: string;
+    }) => api.user.updatePassword(passwordData),
+    {
+      onSuccess: () => {
+        // Clear password form after successful update
+        console.log('Password updated successfully');
+      },
+      onError: (error) => {
+        console.error('Failed to update password:', error);
+      },
+    }
+  );
+}

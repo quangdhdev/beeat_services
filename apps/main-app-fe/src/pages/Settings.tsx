@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../components/LanguageSwitcher';
-import { useUserProfileQuery, useUpdateProfileMutation, useUploadAvatarMutation } from '../hooks/queries/userQueries';
+import { useUserProfileQuery, useUpdateProfileMutation, useUploadAvatarMutation, useUpdatePasswordMutation } from '../hooks/queries/userQueries';
 
 const Settings: React.FC = () => {
   const { t } = useTranslation();
@@ -26,6 +26,7 @@ const Settings: React.FC = () => {
   const { data: profile, isLoading } = useUserProfileQuery();
   const updateProfileMutation = useUpdateProfileMutation();
   const uploadAvatarMutation = useUploadAvatarMutation();
+  const updatePasswordMutation = useUpdatePasswordMutation();
   
   console.log({profile});
   const [profileData, setProfileData] = useState({
@@ -87,14 +88,29 @@ const Settings: React.FC = () => {
       console.error('Failed to upload avatar:', error);
     }
   };
-  const handlePasswordSubmit = (e: React.FormEvent) => {
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       alert('Mật khẩu mới không khớp!');
       return;
     }
-    console.log('Password updated');
-    // Handle password update
+    try {
+      await updatePasswordMutation.mutateAsync({
+        currentPassword: passwordData.currentPassword,
+        newPassword: passwordData.newPassword,
+        confirmPassword: passwordData.confirmPassword,
+      });
+      alert('Mật khẩu đã được cập nhật thành công!');
+      // Reset password fields after successful update
+      setPasswordData({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      });
+    } catch (error) {
+      console.error('Failed to update password:', error);
+      alert('Cập nhật mật khẩu thất bại. Vui lòng kiểm tra lại thông tin.');
+    }
   };
 
   const handleNotificationChange = (key: string, value: boolean) => {

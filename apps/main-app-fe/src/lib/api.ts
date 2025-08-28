@@ -67,6 +67,17 @@ export const userApi = {
   ): Promise<ApiResponse<{ avatarUrl: string }>> => {
     return httpRequest.upload("/user/avatar", file, onProgress);
   },
+
+  // Update password
+  updatePassword: async (
+    passwordData: {
+      currentPassword: string;
+      newPassword: string;
+      confirmPassword: string;
+    }
+  ): Promise<ApiResponse<{ message: string }>> => {
+    return httpRequest.put("/user/password", passwordData);
+  },
 };
 
 // Cart API endpoints
